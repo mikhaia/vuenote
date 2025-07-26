@@ -21,8 +21,8 @@ export const signOutUser = async () => {
 
 onAuthStateChanged(auth, user => {
   if (user) {
-    console.log('Пользователь вошёл:', user.displayName)
+    console.log('Login:', user.displayName)
   } else {
-    console.log('Пользователь вышел')
+    console.log('Logout')
   }
 })
