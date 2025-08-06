@@ -21,6 +21,7 @@ export function useNotes(user) {
     const newNote = await addNoteToCategory(user.value.uid, categoryId, 'New Note', '<p>New note content</p>')
     const category = categories.value.find(c => c.id === categoryId)
     category.notes.push(newNote)
+    selectNote(newNote)
   }
 
   const toggleCategory = async (categoryId) => {
@@ -30,29 +31,28 @@ export function useNotes(user) {
   }
 
   const selectNote = async (note) => {
-    console.log('note', note)
     tinymce.remove()
     selectedNote.value = null
     await nextTick()
     selectedNote.value = note
   }
 
-    const saveNote = async () => {
-        if (!selectedNote.value?.id || !selectedNote.value?.categoryId) return false
+  const saveNote = async () => {
+      if (!selectedNote.value?.id || !selectedNote.value?.categoryId) return false
 
-        isSaving.value = true
-        try {
-            await saveItem(user.value.uid, selectedNote.value)
-            console.log('showToast 2');
-            showToast('Note saved!')
-            return true
-        } catch (e) {
-            console.error('Error:', e)
-            return false
-        } finally {
-            isSaving.value = false
-        }
-    }
+      isSaving.value = true
+      try {
+          await saveItem(user.value.uid, selectedNote.value)
+          console.log('showToast 2');
+          showToast('Note saved!')
+          return true
+      } catch (e) {
+          console.error('Error:', e)
+          return false
+      } finally {
+          isSaving.value = false
+      }
+  }
 
   return {
     categories,
